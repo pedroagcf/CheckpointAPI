@@ -1,8 +1,9 @@
-﻿using CheckpointAPI.Repository;
+﻿using CheckpointAPI.Interfaces;
+using CheckpointAPI.Repository;
+using CheckpointAPI.Services;
 using CheckpointAPI.Settings;
 using Microsoft.Extensions.Options;
 
-DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +15,7 @@ builder.Services.AddSingleton<IMongoDbSettings>(serviceProvider =>
 
 builder.Services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
 
+builder.Services.AddTransient<IUserService, UserService>();
 
 //Controller settings
 builder.Services.AddControllers().AddJsonOptions(
@@ -40,3 +42,4 @@ app.MapControllers();
 
 app.Run();
 
+    
